@@ -13,5 +13,6 @@ test it:
 stop it:  
 `docker stop simple`
 
-as shown in the picture below:
+as shown in the picture:
+
 ![](demo.png )
