@@ -1,0 +1,45 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: simple-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: simple
+  template:
+    metadata:
+      labels:
+        app: simple
+    spec:
+      containers:
+      - name: simple-container
+        image: benst/simple:1.0
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: simple-service
+spec:
+  ports:
+  - name: http
+    targetPort: 8080
+    port: 80
+  selector:
+    app: simple
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: simple-ingress
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - host: simple.k8s.local
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: simple-service
+          servicePort: http
