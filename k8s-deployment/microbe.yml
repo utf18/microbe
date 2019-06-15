@@ -1,45 +1,45 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: simple-deployment
+  name: microbe-deployment
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: simple
+      app: microbe
   template:
     metadata:
       labels:
-        app: simple
+        app: microbe
     spec:
       containers:
-      - name: simple-container
-        image: benst/simple:1.0
+      - name: microbe-container
+        image: benst/microbe:1.0
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: simple-service
+  name: microbe-service
 spec:
   ports:
   - name: http
     targetPort: 8080
     port: 80
   selector:
-    app: simple
+    app: microbe
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: simple-ingress
+  name: microbe-ingress
   annotations:
     kubernetes.io/ingress.class: traefik
 spec:
   rules:
-  - host: simple.k8s.local
+  - host: microbe.k8s.local
     http:
       paths:
       - path: /
         backend:
-          serviceName: simple-service
+          serviceName: microbe-service
           servicePort: http
