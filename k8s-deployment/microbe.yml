@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: microbe-deployment
+  name: microbe
 spec:
   replicas: 2
   selector:
@@ -13,13 +13,13 @@ spec:
         app: microbe
     spec:
       containers:
-      - name: microbe-container
+      - name: microbe
         image: benst/microbe:1.0
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: microbe-service
+  name: microbe
 spec:
   ports:
   - name: http
@@ -31,7 +31,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: microbe-ingress
+  name: microbe
   annotations:
     kubernetes.io/ingress.class: traefik
 spec:
@@ -41,5 +41,5 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: microbe-service
+          serviceName: microbe
           servicePort: http
